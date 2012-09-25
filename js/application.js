@@ -9,7 +9,7 @@ function Application() {
 Application.prototype.load = function() {
   var application = this;
   this.populateContext();
-  this.source = new UrlAudioSource(this.context, "media/sweep.mp3", function() {
+  this.source = new UrlAudioSource(this.context, "media/04182011.mp3", function() {
     document.getElementById("loading").style.display = 'none';
     document.getElementById("spectrum_analyzer").style.display = 'block';
     document.getElementById("controls").style.display = 'inline';
@@ -17,7 +17,7 @@ Application.prototype.load = function() {
     application.model = new SpectrumAnalyzer(application.audio);
     application.view = new SpectrumAnalyzerView(application.model, "#spectrum_analyzer");
     application.view.update();
-  });
+  }, 48000);
 }
 
 Application.prototype.play = function() {
