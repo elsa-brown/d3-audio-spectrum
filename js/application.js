@@ -31,7 +31,12 @@ Application.prototype.setVolume = function(element) {
 }
 
 Application.prototype.setResolution = function(element) {
-  this.model.setResolution(element.value);  
+  this.model.setResolution(48/element.value);  
+  this.view.reset();
+}
+
+Application.prototype.setCurve = function(element) {
+  this.model.setCurve(element.value);  
   this.view.reset();
 }
 
@@ -71,6 +76,10 @@ Application.setVolume = function(element) {
 
 Application.setResolution = function(element) {
   this.instance.setResolution(element);  
+}
+
+Application.setCurve = function(element) {
+  this.instance.setCurve(element);  
 }
 
 Application.togglePlay = function() {
