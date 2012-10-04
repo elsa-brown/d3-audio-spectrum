@@ -15,6 +15,16 @@ UrlAudioSource.prototype.load = function(callback) {
   request.send();
 }
 
+UrlAudioSource.prototype.play = function() {
+  this.source.loop = true;
+  this.source.noteOn(0);
+}
+
+UrlAudioSource.prototype.stop = function() {
+  this.source.noteOff(0);
+  this.disconnect();
+}
+
 UrlAudioSource.prototype.decode = function(response, callback) {
   var source = this;
   this.source = this.context.createBufferSource();
@@ -26,5 +36,9 @@ UrlAudioSource.prototype.decode = function(response, callback) {
 
 UrlAudioSource.prototype.connect = function(connector) {
   this.source.connect(connector);
+}
+
+UrlAudioSource.prototype.disconnect = function() {
+  this.source.disconnect();
 }
 
