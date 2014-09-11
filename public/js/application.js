@@ -175,4 +175,3 @@ Application.togglePlay = function() {
 Application.stop = function() { 
   this.instance.stop();
 }
-
