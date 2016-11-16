@@ -5,7 +5,7 @@ function Application() {
   this.source;
   this.view;
   this.page = new Page();
-  this.populateUrl("media/04182011.mp3");
+  this.populateAudioUrl("media/04182011.mp3");
 }
 
 Application.prototype.populateAudioUrl = function(defaultUrl) {
