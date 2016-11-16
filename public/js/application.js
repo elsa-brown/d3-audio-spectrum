@@ -52,11 +52,7 @@ Application.prototype.load = function() {
 
 Application.prototype.sourceFromUrl = function(url, callback) {
   var app = this;
-<<<<<<< HEAD
-  return new UrlAudioSource(this.context, url, function() {
-=======
   return new RemoteAudioFile(this.context, url, function() {
->>>>>>> 5ed26cdeda699d9fad370c55362cc7c50b38aa3e
     app.onSourceLoaded(callback);
   });
 }
