@@ -34,7 +34,7 @@ Application.prototype.query = function () {
     } else {
       query_string[pair[0]].push(pair[1]);
     }
-  } 
+  }
   return query_string;
 }
 
@@ -51,8 +51,8 @@ Application.prototype.load = function() {
 
 Application.prototype.sourceFromUrl = function(url, callback) {
   var app = this;
-  return new UrlAudioSource(this.context, url, function() { 
-    app.onSourceLoaded(callback); 
+  return new UrlAudioSource(this.context, url, function() {
+    app.onSourceLoaded(callback);
   });
 }
 
@@ -83,11 +83,11 @@ Application.prototype.play = function() {
 Application.prototype.setVolume = function(element) {
   var fraction = parseInt(element.value) / parseInt(element.max);
   var value = fraction * fraction;
-  this.audio.setVolume(value);  
+  this.audio.setVolume(value);
 }
 
 Application.prototype.setResolution = function(element) {
-  this.model.setResolution(48/element.value);  
+  this.model.setResolution(48/element.value);
   this.view.reset();
 }
 
@@ -96,7 +96,7 @@ Application.prototype.setIntensity = function(element) {
 }
 
 Application.prototype.setCurve = function(element) {
-  this.model.setCurve(element.value);  
+  this.model.setCurve(element.value);
   this.view.reset();
 }
 
@@ -108,7 +108,7 @@ Application.prototype.toggleInput = function() {
   if (this.source instanceof UrlAudioSource) {
     element.value = "Use Audio URL";
     this.source = this.sourceFromInput();
-    this.onSourceLoaded(); 
+    this.onSourceLoaded();
     this.play();
   } else if (this.source instanceof InputAudioSource) {
     element.value = "Use Audio Input";
@@ -120,7 +120,7 @@ Application.prototype.togglePlay = function() {
   this.audio.playing ? this.stop() : this.play();
 }
 
-Application.prototype.stop = function() { 
+Application.prototype.stop = function() {
   this.audio.stop();
   var element = document.getElementById('play');
   element.value = "Play";
@@ -149,7 +149,7 @@ Application.play = function() {
 }
 
 Application.setVolume = function(element) {
-  this.instance.setVolume(element);  
+  this.instance.setVolume(element);
 }
 
 Application.setIntensity = function(element) {
@@ -157,11 +157,11 @@ Application.setIntensity = function(element) {
 }
 
 Application.setResolution = function(element) {
-  this.instance.setResolution(element);  
+  this.instance.setResolution(element);
 }
 
 Application.setCurve = function(element) {
-  this.instance.setCurve(element);  
+  this.instance.setCurve(element);
 }
 
 Application.toggleInput = function() {
@@ -172,6 +172,6 @@ Application.togglePlay = function() {
   this.instance.togglePlay();
 }
 
-Application.stop = function() { 
+Application.stop = function() {
   this.instance.stop();
 }
