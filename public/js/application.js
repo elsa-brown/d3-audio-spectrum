@@ -1,13 +1,14 @@
 function Application() {
-  this.populateUrl("media/04182011.mp3");
   this.audio;
   this.context;
   this.model;
   this.source;
   this.view;
+  this.page = new Page();
+  this.populateUrl("media/04182011.mp3");
 }
 
-Application.prototype.populateUrl = function(defaultUrl) {
+Application.prototype.populateAudioUrl = function(defaultUrl) {
   var src = this.query().src;
   if (src != null && src != "") {
     this.url = "/audio?src=" + this.query().src;
@@ -23,10 +24,10 @@ Application.prototype.query = function () {
   var vars = query.split("&");
   for (var i=0;i<vars.length;i++) {
     var pair = vars[i].split("=");
-        // If first entry with this name
+    // If first entry with this name
     if (typeof query_string[pair[0]] === "undefined") {
       query_string[pair[0]] = pair[1];
-        // If second entry with this name
+      // If second entry with this name
     } else if (typeof query_string[pair[0]] === "string") {
       var arr = [ query_string[pair[0]], pair[1] ];
       query_string[pair[0]] = arr;
@@ -51,20 +52,24 @@ Application.prototype.load = function() {
 
 Application.prototype.sourceFromUrl = function(url, callback) {
   var app = this;
+<<<<<<< HEAD
   return new UrlAudioSource(this.context, url, function() {
+=======
+  return new RemoteAudioFile(this.context, url, function() {
+>>>>>>> 5ed26cdeda699d9fad370c55362cc7c50b38aa3e
     app.onSourceLoaded(callback);
   });
 }
 
 Application.prototype.sourceFromInput = function() {
   var app = this;
-  return new InputAudioSource(this.context);
+  return new AudioInput(this.context);
 }
 
 Application.prototype.onSourceLoaded = function(callback) {
-  document.getElementById("loading").style.display = 'none';
-  document.getElementById("spectrum_analyzer").style.display = 'block';
-  document.getElementById("controls").style.display = 'inline';
+  this.page.hideAudioSpinner();
+  this.page.showAnalyzer();
+  this.page.showControls();
   this.audio.source = this.source;
   if (callback != null) {
     callback();
@@ -72,11 +77,11 @@ Application.prototype.onSourceLoaded = function(callback) {
 }
 
 Application.prototype.play = function() {
-  document.getElementById("loader").style.display = 'block';
-  var element = document.getElementById('play');
-  element.value = "Stop";
+  this.page.showWidgetSpinner();
+  this.page.setPlayState(true);
+  var application = this;
   this.model.play(function() {
-    document.getElementById("loader").style.display = 'none';
+    application.page.hideWidgetSpinner();
   });
 }
 
@@ -102,16 +107,15 @@ Application.prototype.setCurve = function(element) {
 
 Application.prototype.toggleInput = function() {
   var app = this;
-  var element = document.getElementById('input');
   var callback = function() { app.play(); };
   this.stop();
-  if (this.source instanceof UrlAudioSource) {
-    element.value = "Use Audio URL";
+  if (this.source instanceof RemoteAudioFile) {
+    this.page.setUrlInputValue("Use Audio URL")
     this.source = this.sourceFromInput();
     this.onSourceLoaded();
     this.play();
-  } else if (this.source instanceof InputAudioSource) {
-    element.value = "Use Audio Input";
+  } else if (this.source instanceof AudioInput) {
+    this.page.setUrlInputValue("Use Audio Input");
     this.source = this.sourceFromUrl(this.url, callback);
   }
 }
@@ -122,8 +126,7 @@ Application.prototype.togglePlay = function() {
 
 Application.prototype.stop = function() {
   this.audio.stop();
-  var element = document.getElementById('play');
-  element.value = "Play";
+  this.page.setPlayState(false);
 }
 
 Application.prototype.populateContext = function() {
